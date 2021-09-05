@@ -1,0 +1,25 @@
+return {
+{task_type=31,per_score=5,max_score=5,open_param="Login",},
+{index=1,task_type=29,max_score=250,open_param="FestivalView#ErnieActivity",task_desc="参与1次疯狂摇奖可获2嗨点 ",},
+{index=2,task_type=27,per_score=1,open_level=78,open_param="GuildTask",task_desc="完成1次仙盟任务可获1嗨点 ",},
+{index=3,task_type=28,per_score=1,max_score=20,open_level=50,open_param="MojingTask",task_desc="完成1次跑环任务可获1嗨点 ",},
+{index=4,task_type=11,per_score=1,open_level=50,open_param="DailyTask",task_desc="完成1次经验任务可获1嗨点 ",},
+{index=5,task_arg=60,per_score=5,max_score=5,task_desc="单笔充值60元宝可获5嗨点 ",},
+{index=6,task_arg=1080,per_score=15,max_score=15,task_desc="单笔充值1080元宝可获10嗨点 ",},
+{index=7,task_type=1,task_arg=6480,per_score=50,max_score=50,task_desc="单日累充6480元宝可获50嗨点 ",},
+{index=8,task_arg=3280,per_score=50,max_score=50,task_desc="单笔充值3280元宝可获50嗨点 ",},
+{index=9,task_type=10,max_score=12,open_level=50,open_param="HuSong",task_desc="完成1次仙女护送可获2嗨点 ",},
+{index=10,task_type=8,max_score=60,open_level=120,open_param="Boss#world_boss",task_desc="击杀1次BOSS可获2嗨点 ",},
+{index=11,task_type=2,open_level=106,open_param="FuBen#fb_exp",task_desc="参与1次经验副本可获2嗨点 ",},
+{index=12,task_type=3,max_score=40,open_level=50,open_param="FuBen#fb_phase",task_desc="参与1次进阶副本可获2嗨点 ",},
+{index=13,task_type=4,open_level=50,open_param="GaoZhanView#fb_armor",task_desc="参与1次防具副本可获2嗨点 ",},
+{index=14,task_type=5,max_score=8,open_level=50,open_param="GaoZhanView#fb_quality",task_desc="参与1次品质副本可获2嗨点 ",},
+{index=15,task_type=7,per_score=1,max_score=250,open_level=150,open_param="treasure",task_desc="参与1次寻宝可获1嗨点 ",},
+{index=16,task_type=12,per_score=10,open_level=120,open_param="Activity#TOMB_EXPLORE",task_desc="参与1次地宫探险可获10嗨点 ",},
+{index=17,task_type=15,per_score=10,open_level=120,open_param="Activity#GONGCHENGZHAN",task_desc="参与1次攻城战可获10嗨点 ",},
+{index=18,task_type=18,per_score=10,open_level=120,open_param="Activity#GUILDBATTLE",task_desc="参与1次仙盟抢旗可获10嗨点 ",},
+{index=19,task_type=19,per_score=5,max_score=5,open_level=120,open_param="Activity#SHUIJING",task_desc="参与1次宝石迷阵可获5嗨点 ",},
+{index=20,task_type=21,per_score=10,open_level=120,open_param="Activity#KF_FISHING",task_desc="参与1次跨服钓鱼可获10嗨点 ",},
+{index=21,task_type=24,per_score=10,open_level=160,open_param="Activity#KF_XIULUO_TOWER",task_desc="参与1次无尽之塔可获10嗨点 ",}
+}
+

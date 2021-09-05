@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Extensions">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Plugins/ConsoleE/Editor/Extensions.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

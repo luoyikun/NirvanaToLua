@@ -1,0 +1,52 @@
+return {
+	id = 9866,
+	name = "熔岩炼狱",
+	scene_type = 64,
+	bundle_name = "scenes/map/w3_yw_rongyan_main",
+	asset_name = "W3_YW_RongYan_Main",
+	width = 466,
+	height = 473,
+	origin_x = 19,
+	origin_y = 7,
+	levellimit = 0,
+    is_forbid_pk = 0,
+    skip_loading = 0,
+	show_weather = 0,
+    scenex = 281,
+    sceney = 59,
+	npcs = {
+	},
+	monsters = {
+	},
+	doors = {
+	},
+    gathers = {
+	},
+    jumppoints = {
+    },
+    fences = {
+	},
+    effects = {
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=65, y=309},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=57, y=320},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=89, y=321},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=80, y=331},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -42.5, 0}, scale={1, 1, 1}, x=144, y=248},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -43.9, 0}, scale={1, 1, 1}, x=134, y=239},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -130.8, 0}, scale={1, 1, 1}, x=204, y=205},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -130.8, 0}, scale={1, 1, 1}, x=212, y=195},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -228.8, 0}, scale={1, 1, 1}, x=184, y=86},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -211.8, 0}, scale={1, 1, 1}, x=276, y=227},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -228.8, 0}, scale={1, 1, 1}, x=177, y=79},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -206.5, 0}, scale={1, 1, 1}, x=264, y=221},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -202.5, 0}, scale={1, 1, 1}, x=253, y=216},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -135.5, 0}, scale={1, 1, 1}, x=308, y=201},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -137.8, 0}, scale={1, 1, 1}, x=318, y=192},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -137.8, 0}, scale={1, 1, 1}, x=328, y=183},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -184.7, 0}, scale={1, 1, 1}, x=398, y=218},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -188.7, 0}, scale={1, 1, 1}, x=388, y=217},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -227.8, 0}, scale={1, 1, 1}, x=254, y=65},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -227.8, 0}, scale={1, 1, 1}, x=248, y=58},
+	},
+    mask = "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",
+}

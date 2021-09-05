@@ -1,0 +1,75 @@
+-- S-随机活动开启配置.xls
+return {
+other={
+{}},
+
+open_cfg={
+{end_day_idx=1,name="坐骑比拼",},
+{activity_type=2145,begin_day_idx=1,end_day_idx=2,name="羽翼比拼",},
+{activity_type=2156,begin_day_idx=2,end_day_idx=3,name="战骑比拼",},
+{activity_type=2161,begin_day_idx=3,end_day_idx=4,name="灵童比拼",},
+{activity_type=2138,begin_day_idx=4,end_day_idx=5,name="法宝比拼",},
+{activity_type=2164,begin_day_idx=5,end_day_idx=6,name="飞宠比拼",},
+{activity_type=2144,begin_day_idx=6,name="光环比拼",},
+{activity_type=2163,begin_day_idx=7,end_day_idx=8,name="灵骑比拼",},
+{activity_type=2165,begin_day_idx=8,end_day_idx=9,name="尾焰比拼",},
+{activity_type=2158,begin_day_idx=9,end_day_idx=10,name="麒麟臂比拼",},
+{activity_type=2146,begin_day_idx=10,end_day_idx=11,name="仙环比拼",},
+{activity_type=2139,begin_day_idx=11,end_day_idx=12,name="足迹比拼",},
+{activity_type=2162,begin_day_idx=12,end_day_idx=13,name="灵弓比拼",},
+{activity_type=2147,begin_day_idx=13,end_day_idx=14,name="仙阵比拼",},
+{activity_type=2136,name="首充团购",},
+{activity_type=2168,name="集字活动",},
+{activity_type=2174,end_day_idx=4,name="连充特惠·初",},
+{activity_type=2175,name="连充特惠·高",},
+{activity_type=2171,end_day_idx=3,name="礼包抢购",},
+{activity_type=2091,name="七天累充",},
+{activity_type=2199,end_day_idx=9999,},
+{activity_type=2169,end_day_idx=3,name="我们结婚吧",},
+{activity_type=2229,begin_day_idx=7,end_day_idx=9999,},
+{activity_type=2083,end_day_idx=3,name="聚宝盆",},
+{activity_type=2172,is_openserver=0,name="经验炼制",},
+{activity_type=2234,begin_day_idx=2,end_day_idx=5,name="半价买房",},
+{activity_type=2235,begin_day_idx=2,end_day_idx=5,name="家具买一送一",},
+{activity_type=2228,end_day_idx=3,is_openserver=0,name="表白排行榜",},
+{activity_type=2236,is_openserver=0,name="光环特购",},
+{activity_type=2238,begin_day_idx=2,end_day_idx=4,is_openserver=0,name="欧式婚礼半价",},
+{activity_type=2232,end_day_idx=39,is_openserver=0,name="幸运许愿",},
+{activity_type=2233,end_day_idx=39,is_openserver=0,name="形象比拼",},
+{activity_type=2208,is_openserver=0,name="普天同庆",},
+{activity_type=2056,end_day_idx=14,name="个人抢购",},
+{activity_type=2239,begin_day_idx=2,end_day_idx=3,is_openserver=0,name="首饰狂欢",},
+{activity_type=2240,begin_day_idx=1,end_day_idx=4,is_openserver=0,name="五折抱娃",},
+{activity_type=2241,begin_day_idx=3,end_day_idx=6,is_openserver=0,name="限购礼包",},
+{activity_type=2242,end_day_idx=3,is_openserver=0,name="形象购买",},
+{activity_type=2053,begin_day_idx=1,end_day_idx=4,is_openserver=0,name="充值排行",},
+{activity_type=2054,begin_day_idx=4,is_openserver=0,name="消费排行",},
+{activity_type=2193,end_day_idx=3,name="完美情人",}},
+
+version_open_cfg={
+{},
+{activity_type=2211,},
+{activity_type=2212,},
+{activity_type=2213,},
+{activity_type=2214,},
+{activity_type=2224,},
+{activity_type=2189,},
+{activity_type=2244,},
+{activity_type=2107,begin_date="2019-06-07 00:00:00",end_date="2019-06-10 23:59:59",},
+{activity_type=2108,begin_date="2019-06-07 00:00:00",end_date="2019-06-10 23:59:59",},
+{activity_type=2218,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2215,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2217,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2226,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2216,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2225,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",},
+{activity_type=2245,begin_date="2019-02-25 00:00:00",end_date="2019-03-01 23:59:59",}},
+
+other_default_table={begin_day_idx=0,end_day_idx=0,allow_set_time_dayidx=7,},
+
+open_cfg_default_table={activity_type=2143,begin_day_idx=0,end_day_idx=7,open_type=0,is_openserver=1,name="进阶返还",},
+
+version_open_cfg_default_table={activity_type=2109,begin_date="2019-09-11 00:00:00",end_date="2019-09-14 23:59:59",open_type=1,}
+
+}
+

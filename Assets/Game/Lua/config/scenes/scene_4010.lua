@@ -1,0 +1,53 @@
+return {
+	id = 4010,
+	name = "百鬼夜行",
+	scene_type = 69,
+	bundle_name = "scenes/map/w3_fb_tafang_main",
+	asset_name = "W3_FB_TaFang_Main",
+	width = 108,
+	height = 69,
+	origin_x = -167,
+	origin_y = -119,
+	levellimit = 0,
+    is_forbid_pk = 0,
+    skip_loading = 0,
+	show_weather = 0,
+    scenex = 54,
+    sceney = 22,
+	npcs = {
+	},
+	monsters = {
+	},
+	doors = {
+	},
+    gathers = {
+	},
+    jumppoints = {
+    },
+    fences = {
+	},
+    effects = {
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=96, y=24},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=90, y=24},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=85, y=24},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=78, y=24},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 90, 0}, scale={1, 1, 1}, x=72, y=31},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 90, 0}, scale={1, 1, 1}, x=72, y=37},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 90, 0}, scale={1, 1, 1}, x=72, y=43},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=69, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=64, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=57, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=51, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=45, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=38, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=33, y=48},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 270, 0}, scale={1, 1, 1}, x=32, y=44},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 270, 0}, scale={1, 1, 1}, x=32, y=39},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 270, 0}, scale={1, 1, 1}, x=32, y=32},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 270, 0}, scale={1, 1, 1}, x=32, y=26},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=26, y=23},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=20, y=23},
+		{bundle="effects/prefab/ui_x/effect_jiantou_dc_prefab", asset="effect_jiantou_dc.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=13, y=23},
+	},
+    mask = "XQAAQAAAAG/9//+jt8CRd1RFmXn0rZoXJOkhFdtoJZ2ZcT3CvYGbdtfMfJpjzp+DFP9ibuMbBFHzvCD80fHOg1LnAW4dRZ0eW2j4h05cOn0305UYaS1MLLpUkha7EvJt4fCCTrSnvU+i71SH3XlEfqQeTYlPLQ28FfwGF+jWKyeq9vhmwzDYNcx1mXpJwXF0EJgALh4WpvMrnN3ea6JsFL8kXl3+vTgdEAcBOXMs3Hf//+X8F/o=",
+}

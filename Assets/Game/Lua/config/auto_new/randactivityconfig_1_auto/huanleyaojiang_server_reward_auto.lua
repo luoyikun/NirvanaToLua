@@ -1,0 +1,26 @@
+return {
+{opengame_day=4,server_chou_times=857,reward_item={item_id=24869,num=1,is_bind=1},},
+{opengame_day=4,server_chou_times=857,seq=1,reward_item={item_id=24867,num=1,is_bind=1},},
+{opengame_day=4,server_chou_times=857,seq=2,reward_item={item_id=31343,num=1,is_bind=1},},
+{opengame_day=8,server_chou_times=666,reward_item={item_id=31343,num=1,is_bind=1},},
+{opengame_day=8,server_chou_times=666,seq=1,},
+{opengame_day=12,server_chou_times=779,reward_item={item_id=26012,num=1,is_bind=1},},
+{opengame_day=12,server_chou_times=779,seq=1,reward_item={item_id=31287,num=1,is_bind=1},},
+{opengame_day=12,server_chou_times=779,seq=2,},
+{reward_item={item_id=31295,num=1,is_bind=1},},
+{seq=1,reward_item={item_id=31350,num=1,is_bind=1},},
+{seq=2,reward_item={item_id=31347,num=1,is_bind=1},},
+{seq=3,},
+{opengame_day=20,server_chou_times=1153,reward_item={item_id=31350,num=1,is_bind=1},},
+{opengame_day=20,server_chou_times=1153,seq=1,reward_item={item_id=31302,num=1,is_bind=1},},
+{opengame_day=20,server_chou_times=1153,seq=2,reward_item={item_id=31301,num=1,is_bind=1},},
+{opengame_day=24,server_chou_times=675,reward_item={item_id=24872,num=1,is_bind=1},},
+{opengame_day=24,server_chou_times=675,seq=1,reward_item={item_id=31309,num=1,is_bind=1},},
+{opengame_day=24,server_chou_times=675,seq=2,reward_item={item_id=31344,num=1,is_bind=1},},
+{opengame_day=28,server_chou_times=1098,reward_item={item_id=31302,num=1,is_bind=1},},
+{opengame_day=28,server_chou_times=1098,seq=1,reward_item={item_id=31295,num=1,is_bind=1},},
+{opengame_day=28,server_chou_times=1098,seq=2,reward_item={item_id=31301,num=1,is_bind=1},},
+{opengame_day=9999,server_chou_times=1452,reward_item={item_id=31314,num=1,is_bind=1},},
+{opengame_day=9999,server_chou_times=1452,seq=1,reward_item={item_id=31351,num=1,is_bind=1},}
+}
+

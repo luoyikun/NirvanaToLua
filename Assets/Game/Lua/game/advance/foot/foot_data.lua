@@ -1,0 +1,844 @@
+FootData = FootData or BaseClass()
+
+FootDanId = {
+		ChengZhangDanId = 22114,
+		ZiZhiDanId = 22105,
+}
+
+FootShuXingDanCfgType = {
+		Type = 12
+}
+
+FootDataEquipId = {
+	16100, 16110, 16120, 16130
+}
+local TALENTLEVEL = 8
+function FootData:__init()
+	if FootData.Instance then
+		print_error("[ItemData] Attemp to create a singleton twice !")
+	end
+	FootData.Instance = self
+
+	self.foot_info = {
+		footprint_level = 0,
+		grade = 0,
+		used_imageid = 0,
+		shuxingdan_count = 0,
+		chengzhangdan_count = 0,
+		grade_bless_val = 0,
+		active_image_flag = {},
+		active_special_image_flag = {},
+		clear_upgrade_time = 0,
+		equip_skill_level = 0,
+		equip_level_list = {},
+		skill_level_list = {},
+		special_img_grade_list = {},
+		clear_bless_time = 0, 
+	}
+
+	self.temp_img_id = 0
+	self.temp_img_id_has_select = 0
+	self.temp_img_time = 0
+
+	self.foot_cfg = ConfigManager.Instance:GetAutoConfig("footprint_auto")
+	self.equip_info_cfg = ListToMap(self.foot_cfg.footprint_equip_info, "equip_idx", "equip_level")
+	self.huanhua_special_cap_add = ListToMap(self.foot_cfg.huanhua_special_cap_add, "huanhua_id")			--幻化特殊战力加成
+	self.clear_bless_grade = 100
+	self.clear_bless_grade_name = ""
+	for i,v in ipairs(self.foot_cfg.grade) do
+		if v.is_clear_bless == 1 then
+			self.clear_bless_grade = v.grade
+			self.clear_bless_grade_name = v.gradename
+			break
+		end
+	end
+end
+
+function FootData:__delete()
+	if FootData.Instance then
+		FootData.Instance = nil
+	end
+	self.foot_info = {}
+end
+
+function FootData:SetFootInfo(protocol)
+	if self.foot_info.grade_bless_val then
+		local diff = protocol.grade_bless_val - self.foot_info.grade_bless_val
+		local bless_cfg =  AdvanceData.Instance:GetBlessBaojiCfg(UPGRADE_BAOJI_TYPE.UPGRADE_TYPE_FOOTPRINT)
+		local baoji_bless = bless_cfg.upgrade_exp * bless_cfg.crit_value
+		if diff > 0 and diff == baoji_bless then
+			TipsCtrl.Instance:OpenBaojiViewTips("advance_view")
+		end
+	end
+	
+	self.foot_info.footprint_level = protocol.footprint_level
+	self.foot_info.grade = protocol.grade
+	self.foot_info.grade_bless_val = protocol.grade_bless_val
+	self.foot_info.used_imageid = protocol.used_imageid
+	self.foot_info.shuxingdan_count = protocol.shuxingdan_count
+	self.foot_info.chengzhangdan_count = protocol.chengzhangdan_count
+	self.foot_info.active_image_flag = bit:uc2b(protocol.active_image_flag)
+	self.foot_info.clear_upgrade_time = protocol.clear_upgrade_time
+	self.foot_info.equip_skill_level = protocol.equip_skill_level
+	self.foot_info.equip_level_list = protocol.equip_level_list
+	self.foot_info.skill_level_list = protocol.skill_level_list
+	self.foot_info.special_img_grade_list = protocol.special_img_grade_list
+	self.foot_info.clear_bless_time = protocol.clear_upgrade_time
+	self.foot_info.active_special_image_flag = bit:uc2b(protocol.active_special_image_flag)
+end
+
+function FootData:GetSpecialImageIsActive(img_id)
+	local act_flag = self.foot_info.active_special_image_flag
+	return act_flag and 1 == act_flag[img_id] or false
+end
+
+--获取服务器下发数据
+function FootData:GetFootInfo()
+	return self.foot_info
+end
+
+--根据阶数获取进阶配置
+function FootData:GetFootGradeCfg(foot_grade)
+	local foot_grade = foot_grade or self.foot_info.grade or 0
+	if foot_grade > self:GetMaxGrade() then
+		foot_grade = self:GetMaxGrade()
+	end
+	return self.foot_cfg.grade[foot_grade]
+end
+
+function FootData:GetSpecialImageCfg(image_id)
+	local foot_config = self.foot_cfg.special_img
+	return foot_config[image_id]
+end
+
+function FootData:GetSpecialImagesCfg()
+	return self.foot_cfg.special_img
+end
+
+-- 获取可显示的幻化列表
+function FootData:GetHuanHuaCfgList()
+	local huanhua_list = {}
+	local open_server_day = TimeCtrl.Instance:GetCurOpenServerDay()
+	local main_vo = GameVoManager.Instance:GetMainRoleVo()
+	for _, v in ipairs(self.foot_cfg.special_img) do
+		if main_vo.level >= v.lvl and open_server_day >= v.open_day then
+			table.insert(huanhua_list, v)
+		end
+	end
+	return huanhua_list
+end
+
+function FootData:CanHuanhuaIndexByImageId(image_id)
+	local list = self:GetHuanHuaCfgList()
+	local num = 0
+	for k, v in ipairs(list) do
+		num = num + 1
+		if v.item_id == image_id then
+			return v.image_id, num
+		end
+	end
+end
+
+function FootData:IsCanHuanhuaDayAndLevel(index)
+	local huanhua_list = self:GetHuanHuaCfgList()
+	for k, v in pairs(huanhua_list) do
+		if v.image_id == index then
+			return true
+		end
+	end
+	return false
+end
+
+function FootData:GetLevelAttribute()
+	local level_cfg = self:GetFootStarLevelCfg(self.foot_info.star_level)
+	return CommonDataManager.GetAttributteByClass(level_cfg)
+end
+
+function FootData:GetFootStarLevelCfg(star_level)
+	local star_level = star_level or self.foot_info.star_level
+
+	for k, v in pairs(self:GetFootUpStarExpCfg()) do
+		if v.star_level == star_level then
+			return v
+		end
+	end
+
+	return nil
+end
+
+function FootData:GetFootUpStarExpCfg()
+	return self.foot_cfg.up_star_exp
+end
+
+
+--获取足迹最大等级
+function FootData:GetMaxGrade()
+	return #self.foot_cfg.grade
+end
+
+--获取进阶配置
+function FootData:GetGradeCfg()
+	return self.foot_cfg.grade
+end
+
+function FootData:GetMaxSpecialImage()
+	return #self.foot_cfg.special_img
+end
+
+function FootData:GetSpecialImageUpgradeCfg()
+	return self.foot_cfg.special_image_upgrade
+end
+
+--得到足迹技能配置
+function FootData:GetFootSkillCfg()
+	return self.foot_cfg.footprint_skill
+end
+
+function FootData:GetFootImageCfg()
+	return self.foot_cfg.image_list
+end
+
+function FootData:GetOtherCfg()
+	return self.foot_cfg.other[1]
+end
+
+-- 获取当前点击坐骑特殊形象的配置
+function FootData:GetSpecialImageUpgradeInfo(index, grade, is_next)
+	if (index == 0) or nil then
+		return
+	end
+	local grade = grade or self.foot_info.special_img_grade_list[index] or 0
+	if is_next then
+		grade = grade + 1
+	end
+	for k, v in pairs(self:GetSpecialImageUpgradeCfg()) do
+		if v.special_img_id == index and v.grade == grade then
+			return v
+		end
+	end
+
+	return nil
+end
+
+-- 获取形象列表的配置
+function FootData:GetImageListInfo(index)
+	if (index == 0) or nil then
+		return
+	end
+	for k, v in pairs(self:GetFootImageCfg()) do
+		if v.image_id == index then
+			return v
+		end
+	end
+
+	return nil
+end
+
+-- 获取幻化最大等级
+function FootData:GetSpecialImageMaxUpLevelById(image_id)
+	if not image_id then return 0 end
+	local max_level = 0
+
+	for k, v in pairs(self:GetSpecialImageUpgradeCfg()) do
+		if v.special_img_id == image_id and v.grade > 0 then
+			max_level = max_level + 1
+		end
+	end
+	return max_level
+end
+
+-- 获取当前点击足迹技能的配置 通过技能索引和技能等级来确定一个技能的所有属性
+function FootData:GetFootSkillCfgById(skill_idx, level, foot_info)
+	local foot_info = foot_info or self.foot_info
+	local level = level or foot_info.skill_level_list[skill_idx]
+
+	for k, v in pairs(self:GetFootSkillCfg()) do
+		if v.skill_idx == skill_idx and v.skill_level == level then
+			return v
+		end
+	end
+
+	return nil
+end
+
+-- 获取特殊形象总增加的属性
+function FootData:GetSpecialImageAttrSum(foot_info)
+	local foot_info = foot_info or self.foot_info
+	local sum_attr_list = CommonStruct.Attribute()
+	local active_flag = foot_info.active_special_image_flag
+	if active_flag == nil then
+		sum_attr_list.chengzhangdan_count = 0
+		sum_attr_list.shuxingdan_count = 0
+		sum_attr_list.equip_limit = 0
+		return sum_attr_list
+	end
+	-- local bit_list = bit:d2b(active_flag)
+	local special_chengzhangdan_count = 0
+	local special_shuxingdan_count = 0
+	local special_equip_limit = 0
+	local special_img_upgrade_info = nil
+	for k, v in pairs(active_flag) do
+		if v == 1 then
+			if self:GetSpecialImageUpgradeInfo(k) ~= nil then
+				special_img_upgrade_info = self:GetSpecialImageUpgradeInfo(k)
+				special_chengzhangdan_count = special_chengzhangdan_count + special_img_upgrade_info.chengzhangdan_count
+				special_shuxingdan_count = special_shuxingdan_count + special_img_upgrade_info.shuxingdan_count
+				special_equip_limit = special_equip_limit + special_img_upgrade_info.equip_level
+
+				sum_attr_list.max_hp = sum_attr_list.max_hp + special_img_upgrade_info.maxhp
+				sum_attr_list.gong_ji = sum_attr_list.gong_ji + special_img_upgrade_info.gongji
+				sum_attr_list.fang_yu = sum_attr_list.fang_yu + special_img_upgrade_info.fangyu
+				sum_attr_list.ming_zhong = sum_attr_list.ming_zhong + special_img_upgrade_info.mingzhong
+				sum_attr_list.shan_bi = sum_attr_list.shan_bi + special_img_upgrade_info.shanbi
+				sum_attr_list.bao_ji = sum_attr_list.bao_ji + special_img_upgrade_info.baoji
+				sum_attr_list.jian_ren = sum_attr_list.jian_ren + special_img_upgrade_info.jianren
+			end
+		end
+	end
+
+	local foot_info_grade = self:GetFootGradeCfg(foot_info.grade)
+	if foot_info_grade then
+		sum_attr_list.chengzhangdan_count = special_chengzhangdan_count + foot_info_grade.chengzhangdan_limit
+		sum_attr_list.shuxingdan_count = special_shuxingdan_count + foot_info_grade.shuxingdan_limit
+		sum_attr_list.equip_limit = special_equip_limit + foot_info_grade.equip_level_limit
+	end
+
+	return sum_attr_list
+end
+
+-- 获得已学习的技能总战力
+function FootData:GetFootSkillAttrSum(foot_info)
+	local attr_list = CommonStruct.Attribute()
+	for i = 0, 3 do
+		local skill_cfg = self:GetFootSkillCfgById(i, nil, foot_info)
+		if skill_cfg ~=nil then
+			attr_list.fang_yu = attr_list.fang_yu + skill_cfg.fangyu
+			attr_list.gong_ji = attr_list.gong_ji + skill_cfg.gongji
+			attr_list.max_hp = attr_list.max_hp + skill_cfg.maxhp
+			attr_list.ming_zhong = attr_list.ming_zhong + skill_cfg.mingzhong
+			attr_list.shan_bi = attr_list.shan_bi + skill_cfg.shanbi
+			attr_list.bao_ji = attr_list.bao_ji + skill_cfg.baoji
+			attr_list.jian_ren = attr_list.jian_ren + skill_cfg.jianren
+		end
+	end
+	return attr_list
+end
+
+-- 获得已升级装备战力
+function FootData:GetFootEquipAttrSum(foot_info)
+	local foot_info = foot_info or self.foot_info
+	local attr_list = CommonStruct.Attribute()
+	if nil == foot_info.equip_level_list then return attr_list end
+	for k, v in pairs(foot_info.equip_level_list) do
+		attr_list = CommonDataManager.AddAttributeAttr(attr_list, CommonDataManager.GetAttributteByClass(self:GetEquipInfoCfg(k, v)))
+	end
+	return attr_list
+end
+
+-- 获取已吃成长丹，资质丹属性
+function FootData:GetDanAttr(foot_info)
+	local foot_info = foot_info or self.foot_info
+	local attr_list = CommonStruct.Attribute()
+
+	local foot_grade_cfg = self:GetFootGradeCfg(foot_info.grade)
+	if not foot_grade_cfg then return attr_list end
+
+	local foot_shuxingdan_cfg = AdvanceData.Instance:GetShuXingDanCfg(FootShuXingDanCfgType.Type)
+	if foot_shuxingdan_cfg and next(foot_shuxingdan_cfg) then
+		attr_list.gong_ji = attr_list.gong_ji + foot_shuxingdan_cfg.gongji * foot_info.shuxingdan_count
+		attr_list.fang_yu = attr_list.fang_yu + foot_shuxingdan_cfg.fangyu * foot_info.shuxingdan_count
+		attr_list.max_hp = attr_list.max_hp + foot_shuxingdan_cfg.maxhp * foot_info.shuxingdan_count
+	end
+
+	return attr_list
+end
+
+function FootData:GetFootAttrSum(foot_info, next_level)
+	local foot_info = foot_info or self:GetFootInfo()
+
+	local attr = CommonStruct.Attribute()
+	if nil == foot_info.grade or foot_info.grade <= 0 then
+		return attr
+	end
+	local foot_grade_cfg = {}
+	if next_level then
+		foot_grade_cfg = self:GetFootGradeCfg(foot_info.grade + 1)
+	else
+		foot_grade_cfg = self:GetFootGradeCfg(foot_info.grade)
+	end
+
+	if foot_grade_cfg == nil or next(foot_grade_cfg) == nil then return end
+	attr.max_hp = foot_grade_cfg.maxhp or 0
+	attr.gong_ji = foot_grade_cfg.gongji or 0
+	attr.fang_yu = foot_grade_cfg.fangyu or 0
+	attr.ming_zhong = foot_grade_cfg.mingzhong or 0
+	attr.shan_bi = foot_grade_cfg.shanbi or 0
+	attr.bao_ji = foot_grade_cfg.baoji or 0
+	attr.jian_ren = foot_grade_cfg.jianren or 0
+	attr.extra_zengshang = foot_grade_cfg.extra_zengshang or 0						--额外伤害值
+	attr.extra_mianshang = foot_grade_cfg.extra_mianshang or 0					--额外减伤值
+	attr.per_jingzhun = foot_grade_cfg.per_jingzhun or 0							-- 破甲
+	attr.per_baoji = foot_grade_cfg.per_baoji or 0								-- 暴伤
+	attr.per_zengshang = foot_grade_cfg.per_zengshang or 0							--伤害加成万分比
+	attr.per_jianshang = foot_grade_cfg.per_jianshang or 0							--伤害减免万分比
+	attr.pvp_jianshang = foot_grade_cfg.pvp_jianshang or 0							-- pvp减伤
+	attr.pvp_zengshang = foot_grade_cfg.pvp_zengshang or 0							-- pvp增伤
+	attr.pve_jianshang = foot_grade_cfg.pve_jianshang or 0							-- pve减伤
+	attr.pve_zengshang = foot_grade_cfg.pve_zengshang or 0							-- pve增伤
+	return attr
+end
+
+function FootData:GetSpecialAttrActiveType(cur_grade)
+	local cur_grade = cur_grade or self.foot_info.grade or 0
+	return AdvanceData.Instance:GetSpecialAttrActiveType(self.foot_cfg.grade, cur_grade)
+end
+
+function FootData:GetHuanHuaSpecialAttrActiveType(grade, index)
+	local grade = grade or self.foot_info.special_img_grade_list[index] or 0
+	return AdvanceData.Instance:GetSpecialAttrActiveType(self.foot_cfg.special_image_upgrade, grade, index)
+end
+
+function FootData:IsShowZizhiRedPoint()
+	local foot_shuxingdan_cfg = AdvanceData.Instance:GetShuXingDanCfg(FootShuXingDanCfgType.Type)
+	if not foot_shuxingdan_cfg or not next(foot_shuxingdan_cfg) then
+		return false
+	end
+
+	if self.foot_info.grade == nil then
+		return false
+	end
+
+	if self.foot_info.grade < foot_shuxingdan_cfg.order_limit then
+		return false
+	end
+	local count_limit = self:GetSpecialImageAttrSum().shuxingdan_count
+	if self.foot_info.shuxingdan_count == nil or count_limit == nil then
+		return false
+	end
+	if self.foot_info.shuxingdan_count >= count_limit then
+		return false
+	end
+
+	if ItemData.Instance:GetItemNumInBagById(FootDanId.ZiZhiDanId) > 0 then
+		return true
+	end
+
+	return false
+end
+
+function FootData:IsShowChengzhangRedPoint()
+	local count_limit = self:GetSpecialImageAttrSum().chengzhangdan_count
+	if self.foot_info.chengzhangdan_count == nil or count_limit == nil then
+		return false
+	end
+	if self.foot_info.chengzhangdan_count >= count_limit then
+		return false
+	end
+	for k, v in pairs(ItemData.Instance:GetBagItemDataList()) do
+		if v.item_id == FootDanId.ChengZhangDanId then
+			return true
+		end
+	end
+	return false
+end
+
+function FootData:CanHuanhuaUpgradeList()
+	local list = {}
+	if self.foot_info.grade == nil or self.foot_info.grade <= 0 then
+		return list
+	end
+
+	local special_img_grade_list = self.foot_info.special_img_grade_list
+	if special_img_grade_list == nil then
+		return list
+	end
+
+	local image_id = self:GetBigTargetImageId()
+	for k, v in pairs(self:GetSpecialImageUpgradeCfg()) do
+		if ItemData.Instance:GetItemNumInBagById(v.stuff_id) >= v.stuff_num 
+			and special_img_grade_list[v.special_img_id] == v.grade 
+			and v.grade < self:GetSpecialImageMaxUpLevelById(v.special_img_id)
+			and v.special_img_id ~= image_id then 								--大目标去除
+			if self:IsCanHuanhuaDayAndLevel(v.special_img_id) then
+				list[v.special_img_id] = v.special_img_id
+			end
+		end
+	end
+	
+	return list
+end
+
+function FootData:CanHuanhuaUpgrade()
+	local list = self:CanHuanhuaUpgradeList()
+	return next(list) ~= nil
+end
+
+function FootData:CanSkillUpLevelList()
+	local list = {}
+	if self.foot_info.grade == nil or self.foot_info.grade <= 0 then return list end
+	if self.foot_info.skill_level_list == nil then
+		return list
+	end
+
+	for k, v in pairs(self:GetFootSkillCfg()) do
+		if ItemData.Instance:GetItemNumInBagById(v.uplevel_stuff_id) >= v.uplevel_stuff_num
+			and self.foot_info.skill_level_list[v.skill_idx] == (v.skill_level - 1)
+			and v.grade <= self.foot_info.grade and v.skill_type ~= 0 then
+			list[v.skill_idx] = v.skill_idx
+		end
+	end
+	return list
+end
+
+-- 获得特殊属性更高的
+function FootData:GetGradeAndSpecialAttr()
+	local cfg = self:GetFootGradeCfg(self.foot_info.grade)
+	for k, v in ipairs (self.foot_cfg.grade) do
+		if v.per_baoji > cfg.per_baoji then
+			return v.grade, v.per_baoji - cfg.per_baoji
+		end
+	end
+end
+
+--是否可以进阶
+function FootData:CanJinjie()
+	if self.foot_info.grade == nil or self.foot_info.grade <= 0 then return false end
+
+	local grad_cfg = self:GetFootGradeCfg(self.foot_info.grade)
+	if nil == grad_cfg then return false end
+
+	if ItemData.Instance:GetItemNumInBagById(grad_cfg.upgrade_stuff_id) >= grad_cfg.upgrade_stuff_count
+		and self.foot_info.grade < self:GetMaxGrade() then
+		return true
+	end
+	return false
+end
+
+function FootData:IsActiviteFoot()
+	local active_flag = self.foot_info and self.foot_info.active_image_flag or {}
+	for k, v in pairs(active_flag) do
+		if v == 1 then
+			return true
+		end
+	end
+	return false
+end
+
+function FootData:GetEquipInfoCfg(equip_index, level)
+	if nil == self.equip_info_cfg[equip_index] then
+		return
+	end
+	return self.equip_info_cfg[equip_index][level]
+end
+
+function FootData:CalAllEquipRemind()
+	if not self:IsOpenEquip() then return 0 end
+
+	for k, v in pairs(self.foot_info.equip_level_list) do
+		if self:CalEquipRemind(k) > 0 then
+			return 1
+		end
+	end
+	return 0
+end
+
+function FootData:CalEquipRemind(equip_index)
+	if nil == self.foot_info or nil == next(self.foot_info) then
+		return 0
+	end
+
+	local equip_level = self.foot_info.equip_level_list[equip_index] or 0
+	local equip_cfg = self:GetEquipInfoCfg(equip_index, equip_level + 1)
+	if nil == equip_cfg then return 0 end
+
+	local grade_info_cfg = self:GetFootGradeCfg(self.foot_info.grade)
+	if grade_info_cfg then
+		local equip_level_toplimit = grade_info_cfg.equip_level_toplimit
+		if self.foot_info.grade < self:GetEquipLevelLimit() or equip_level >= equip_level_toplimit then
+			return 0
+		end
+	end
+
+	local item_data = equip_cfg.item
+	local had_prop_num = ItemData.Instance:GetItemNumInBagById(item_data.item_id)
+
+	return had_prop_num >= item_data.num and 1 or 0
+end
+
+function FootData:CalTalentRemind()
+	if nil == self.foot_info or nil == next(self.foot_info) then
+		return 0
+	end
+	if ImageFuLingData.Instance:GetAdvanceTalentRemind(TALENT_TYPE.TALENT_FIGHTMOUNT) > 0 and self.foot_info.grade > TALENTLEVEL then
+		return 1
+	end
+	return 0
+end
+
+function FootData:GetEquipLevelLimit()
+	for k, v in ipairs(self.foot_cfg.grade) do
+		if v.equip_level_toplimit ~= 0 then
+			return k - 1
+		end
+	end
+	return 0
+end
+
+function FootData:IsOpenEquip()
+	if nil == self.foot_info or nil == next(self.foot_info) then
+		return false, 0
+	end
+
+	local otehr_cfg = self:GetOtherCfg()
+	if self.foot_info.grade > otehr_cfg.active_equip_grade then
+		return true, 0
+	end
+
+	return false, otehr_cfg.active_equip_grade
+end
+
+function FootData:IsActiveEquipSkill()
+	if nil == self.foot_info or nil == next(self.foot_info) then
+		return false
+	end
+	return self.foot_info.equip_skill_level > 0
+end
+
+function FootData:GetFootGradeByUseImageId(used_imageid)
+	if not used_imageid then return 0 end
+	local image_list = self:GetFootImageCfg()
+	if not image_list then return 0 end
+	if not image_list[used_imageid] then return 0 end
+
+	local show_grade = image_list[used_imageid].show_grade
+	for k, v in pairs(self:GetGradeCfg()) do
+		if v.show_grade == show_grade then
+			return v.grade
+		end
+	end
+	return 0
+end
+
+function FootData:GetOhterCfg()
+	return self.foot_cfg.other[1]
+end
+
+function FootData:GetClearBlessGrade()
+	return self.clear_bless_grade, self.clear_bless_grade_name
+end
+
+function FootData:CanShowRed()
+	local foot_info = self:GetFootInfo()
+	local grade_cfg = self:GetFootGradeCfg(foot_info.grade)
+	if nil == grade_cfg then
+		return false
+	end
+
+	if foot_info.grade >= self:GetMaxGrade() then
+		return false
+	end
+
+	if KaifuActivityData.Instance:IsOpenAdvanceReturnActivity() then
+		local open_advance_one = KaifuActivityData.Instance:GetOpenAdvanceType(TYPE_UPGRADE_RETURN.FOOT_UPGRADE_RETURN)
+		local open_advance_two = KaifuActivityData.Instance:GetOpenAdvanceTypeTwo(TYPE_UPGRADE_RETURN.FOOT_UPGRADE_RETURN)
+		local bag_num = ItemData.Instance:GetItemNumInBagById(grade_cfg.upgrade_stuff_id) + ItemData.Instance:GetItemNumInBagById(grade_cfg.upgrade_stuff2_id)
+		if (open_advance_one == 1 or open_advance_two == 1) and bag_num >= grade_cfg.upgrade_stuff_count then
+			return true
+		end
+	end
+	
+	return false
+end
+
+function FootData:GetShuXinLevel()
+	for k, v in ipairs(self.foot_cfg.grade) do
+		if v.per_baoji ~= 0 then
+			return v.grade 
+		end
+	end 
+	return 0
+end
+
+-- 当前阶数
+function FootData:GetGrade()
+	return self.foot_info.grade or 0
+end
+
+--当前使用形象
+function FootData:GetUsedImageId()
+	return self.foot_info.used_imageid 
+end
+
+function FootData:GetBigTargetImageId()
+	return JinJieRewardData.Instance:GetSingleRewardCfgParam0(JINJIE_TYPE.JINJIE_TYPE_FOOTPRINT)
+end
+
+-- 全属性加成所需阶数
+function FootData:GetActiveNeedGrade()
+	local other_cfg = self:GetOhterCfg()
+	return other_cfg.extra_attrs_per_grade or 1
+end
+
+-- 全属性加成百分比
+function FootData:GetAllAttrPercent()
+  	local other_cfg = self:GetOhterCfg()
+  	local attr_percent = math.floor(other_cfg.extra_attrs_per / 100) 	-- 万分比转为百分比
+  	return attr_percent or 0
+end
+
+--当前等级基础战力 power  额外属性加成 huanhua_add_per
+function FootData:GetCurGradeBaseFightPowerAndAddPer()
+	local power = 0
+	local huanhua_add_per = 0
+
+	local grade = self:GetGrade()
+	local cur_grade = grade == 0 and 1 or grade
+	local attr_cfg = self:GetFootGradeCfg(cur_grade)
+	local attr = CommonDataManager.GetAttributteByClass(attr_cfg)
+	power = CommonDataManager.GetCapabilityCalculation(attr)
+
+	local active_add_per_need_level = self:GetActiveNeedGrade()
+	if grade >= active_add_per_need_level then
+		huanhua_add_per = self:GetAllAttrPercent()
+	end
+	return power, huanhua_add_per
+end
+
+--得到幻化形象当前等级
+function FootData:GetSingleSpecialImageGrade(image_id)
+	local grade = 0
+	if nil == self.foot_info or nil == self.foot_info.special_img_grade_list or nil == self.foot_info.special_img_grade_list[image_id] then
+		return grade
+	end
+
+	grade = self.foot_info.special_img_grade_list[image_id]
+	return grade
+end
+
+--当前进阶等级对应的image_id
+function FootData:GetCurGradeImageId()
+	local image_id = 0
+	local cfg = self:GetFootGradeCfg(self.foot_info.grade)
+	if cfg then
+		image_id = cfg.image_id or 0
+	end
+
+	return image_id
+end
+
+------------------------------------------------幻化超级战力-------------------------------------------------
+--获取配置判断超级战力是否开启 0/1 不开启/开启
+function FootData:SuperPowerIsOpenByCfg()
+	local other_cfg = self:GetOhterCfg()
+	local open_flag = other_cfg and other_cfg.is_open_special_cap_add
+	local is_open = false
+	if open_flag then
+		is_open = open_flag == 1
+	end
+
+	return is_open
+end
+
+--特殊星星是否显示
+function FootData:GetStarIsShowSuperPower(huanhua_id)
+	local is_show = false
+	local is_open = self:SuperPowerIsOpenByCfg()
+	if not is_open then
+		return is_show
+	end
+
+	if nil == huanhua_id or nil == self.huanhua_special_cap_add or nil == self.huanhua_special_cap_add[huanhua_id] then
+		return is_show
+	end
+
+	local list = self.huanhua_special_cap_add[huanhua_id]
+	local need_level = list.huanhua_level
+	local cur_level = self:GetSingleSpecialImageGrade(huanhua_id)
+	if need_level and cur_level and cur_level >= need_level then
+		is_show = true
+	end
+
+	return is_show
+end
+
+--超级战力是否显示
+function FootData:IsShowSuperPower(huanhua_id)
+	local is_show = false
+	local is_open = self:SuperPowerIsOpenByCfg()
+	if not is_open then
+		return is_show
+	end
+	
+	if nil == huanhua_id or nil == self.huanhua_special_cap_add or nil == self.huanhua_special_cap_add[huanhua_id] then
+		return is_show
+	end
+
+	local level = self:GetSingleSpecialImageGrade(huanhua_id)
+	is_show = level > 0
+	return is_show
+end
+
+--获取单个幻化形象特殊战力配置
+function FootData:GetSingleHuanHuaSpecialCapAddList(huanhua_id)
+	local list = {}
+	if nil == huanhua_id or nil == self.huanhua_special_cap_add or nil == self.huanhua_special_cap_add[huanhua_id] then
+		return list
+	end
+
+	list = self.huanhua_special_cap_add[huanhua_id]
+	return list
+end
+
+--获取激活超级形象的要求等级
+function FootData:GetActiveSuperPowerNeedLevel(huanhua_id)
+	local level = 0
+	local list = self:GetSingleHuanHuaSpecialCapAddList(huanhua_id)
+	if list and list.huanhua_level then
+		level = list.huanhua_level
+	end
+
+	return level
+end
+
+--特殊战力面板显示数据
+function FootData:GetSpecialHuanHuaShowData(huanhua_id)
+	local data_list = CommonStruct.SpecialHuanHuaTipInfo()
+	if nil == huanhua_id then
+		return data_list
+	end
+
+	local cfg = self:GetSingleHuanHuaSpecialCapAddList(huanhua_id)
+	local huanhua_cfg = self:GetSpecialImageCfg(huanhua_id)
+	local image_name = huanhua_cfg and huanhua_cfg.image_name or ""
+	local name = image_name or "" 
+
+	local need_level = cfg.huanhua_level or 0
+	local cur_level = self:GetSingleSpecialImageGrade(huanhua_id) or 0
+	local color = cur_level >= need_level and TEXT_COLOR.GREEN_4 or TEXT_COLOR.RED
+	local cur_level_str = ToColorStr(cur_level, color)
+	local desc_str = string.format(Language.Advance.SpecialHuanHuaTips, name, cur_level_str, ToColorStr(need_level, TEXT_COLOR.GREEN_4))
+
+ 	data_list.max_hp = cfg.maxhp or 0								-- 生命
+	data_list.gong_ji = cfg.gongji or 0 							-- 攻击
+	data_list.fang_yu = cfg.fangyu or 0								-- 防御
+	data_list.desc = desc_str										-- 描述
+	return data_list
+end
+
+function FootData:IsHidden()
+	local flag = SettingData.Instance:GetAdvanceTypeHideFlag(ADVANCE_HIDE_TYPE.FOOT)		--0为不隐藏，1为隐藏
+	return flag == 1
+end
+
+function FootData:IsHaveZhiShengDanInGrade()
+	if self.foot_info and next(self.foot_info) then
+		local zhishengdan_list = ItemData.Instance:GetItemListByBigType(GameEnum.ITEM_BIGTYPE_EXPENSE)
+		for k, v in pairs(zhishengdan_list) do
+			local item_cfg, bag_type = ItemData.Instance:GetItemConfig(v.item_id)
+			if item_cfg.use_type == 84 and item_cfg.param2 == self.foot_info.grade then
+				return true, item_cfg.id
+			end
+		end
+	end
+	return false, nil
+end

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3fc563677fd7da943973b36e0f08cb1f
+timeCreated: 1499240751
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - downSampleShader: {fileID: 4800000, guid: 3bec638150bf7164c9e91a75bf9ea3ce, type: 3}
+  - brightPassShader: {fileID: 4800000, guid: bba6c9f71298de74b8d67a56cbcf1927, type: 3}
+  - blurPassShader: {fileID: 4800000, guid: 4829ecad392ab3f449ee5ac370f63281, type: 3}
+  - combinePassShader: {fileID: 4800000, guid: cfc59c45c29495645813e80fcd7673c0, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

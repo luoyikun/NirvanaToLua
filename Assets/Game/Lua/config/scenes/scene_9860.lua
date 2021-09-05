@@ -1,0 +1,52 @@
+return {
+	id = 9860,
+	name = "熔岩炼狱",
+	scene_type = 64,
+	bundle_name = "scenes/map/w3_yw_rongyan_main",
+	asset_name = "W3_YW_RongYan_Main",
+	width = 466,
+	height = 473,
+	origin_x = 19,
+	origin_y = 7,
+	levellimit = 0,
+    is_forbid_pk = 0,
+    skip_loading = 0,
+	show_weather = 0,
+    scenex = 281,
+    sceney = 59,
+	npcs = {
+	},
+	monsters = {
+	},
+	doors = {
+	},
+    gathers = {
+	},
+    jumppoints = {
+    },
+    fences = {
+	},
+    effects = {
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=65, y=309},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=57, y=320},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=89, y=321},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 51.88, 0}, scale={1, 1, 1}, x=80, y=331},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, 0, 0}, scale={1, 1, 1}, x=144, y=248},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -43.9, 0}, scale={1, 1, 1}, x=134, y=239},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -130.8, 0}, scale={1, 1, 1}, x=204, y=205},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -130.8, 0}, scale={1, 1, 1}, x=212, y=195},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -228.8, 0}, scale={1, 1, 1}, x=184, y=86},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -211.8, 0}, scale={1, 1, 1}, x=276, y=227},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -228.8, 0}, scale={1, 1, 1}, x=177, y=79},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -206.5, 0}, scale={1, 1, 1}, x=264, y=221},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -202.5, 0}, scale={1, 1, 1}, x=253, y=216},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -135.5, 0}, scale={1, 1, 1}, x=308, y=201},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -137.8, 0}, scale={1, 1, 1}, x=318, y=192},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -137.8, 0}, scale={1, 1, 1}, x=328, y=183},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -184.7, 0}, scale={1, 1, 1}, x=398, y=218},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -188.7, 0}, scale={1, 1, 1}, x=388, y=217},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -227.8, 0}, scale={1, 1, 1}, x=254, y=65},
+		{bundle="effects/prefab/misc/zudang_huo_prefab", asset="zudang_huo.prefab", offset={0, 0, 0}, rotation={0, -227.8, 0}, scale={1, 1, 1}, x=248, y=58},
+	},
+    mask = "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",
+}

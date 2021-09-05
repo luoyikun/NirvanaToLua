@@ -1,0 +1,25 @@
+return {
+{buy_type=0,buy_reward={item_id=25031,num=1,is_bind=1},need_gold=888,daily_reward_gold=1880,},
+{buy_type=0,fecth_day=1,buy_reward={item_id=25031,num=1,is_bind=1},need_gold=888,daily_reward_gold=1880,},
+{buy_type=0,fecth_day=2,buy_reward={item_id=25031,num=1,is_bind=1},need_gold=888,daily_reward_gold=1880,},
+{buy_type=1,buy_reward={item_id=25012,num=1,is_bind=1},need_gold=5888,daily_reward_gold=5880,},
+{buy_type=1,fecth_day=1,buy_reward={item_id=25012,num=1,is_bind=1},need_gold=5888,daily_reward_gold=5880,},
+{buy_type=1,fecth_day=2,buy_reward={item_id=25012,num=1,is_bind=1},need_gold=5888,daily_reward_gold=5880,},
+{buy_type=1,fecth_day=3,buy_reward={item_id=25012,num=1,is_bind=1},need_gold=5888,daily_reward_gold=5880,},
+{buy_type=1,fecth_day=4,buy_reward={item_id=25012,num=1,is_bind=1},need_gold=5888,daily_reward_gold=5880,},
+{},
+{fecth_day=1,},
+{fecth_day=2,},
+{fecth_day=3,},
+{fecth_day=4,},
+{fecth_day=5,},
+{fecth_day=6,},
+{fecth_day=7,},
+{fecth_day=8,},
+{fecth_day=9,},
+{buy_type=3,buy_reward={item_id=24863,num=1,is_bind=1},need_gold=4288,daily_reward_gold=4880,show_type=1,},
+{buy_type=3,fecth_day=1,buy_reward={item_id=24863,num=1,is_bind=1},need_gold=4288,daily_reward_gold=4880,show_type=1,},
+{buy_type=3,fecth_day=2,buy_reward={item_id=24863,num=1,is_bind=1},need_gold=4288,daily_reward_gold=4880,show_type=1,},
+{buy_type=3,fecth_day=3,buy_reward={item_id=24863,num=1,is_bind=1},need_gold=4288,daily_reward_gold=4880,show_type=1,}
+}
+

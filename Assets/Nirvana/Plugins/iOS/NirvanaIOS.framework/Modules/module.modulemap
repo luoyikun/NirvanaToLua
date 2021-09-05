@@ -1,0 +1,4 @@
+framework module NirvanaIOS {
+    header "NirvanaIOS-Swift.h"
+    requires objc
+}

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MTE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ThirdParty/MTE/Editor Default Resources/MTE/MTE.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
